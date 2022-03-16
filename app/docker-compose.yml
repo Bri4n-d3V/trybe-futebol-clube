@@ -1,6 +1,7 @@
 version: '3.9'
 services:
   frontend:
+    restart: 'always'
     build: ./frontend
     # ...
     depends_on:
@@ -13,6 +14,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
+    restart: 'always'
     build: ./backend
     # ...
     depends_on:
