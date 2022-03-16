@@ -1,7 +1,10 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
-class Club extends Model {
+export default class Club extends Model {
+  static assoaciate(models: any) {
+    Club.hasMany(models.Match, { foreignKey: 'id', as: 'matchs' });
+  }
 }
 
 Club.init({

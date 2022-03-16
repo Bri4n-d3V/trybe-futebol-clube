@@ -1,15 +1,39 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
-class Match extends Model {
+export default class Match extends Model {
+  static associate(models: any) {
+    this.belongsTo(models.Club, { foreignKey: 'id', as: 'clubs' });
+  }
 }
 
 Match.init({
-  home_team: DataTypes.INTEGER,
-  home_team_goals: DataTypes.INTEGER,
-  away_team: DataTypes.INTEGER,
-  away_team_goals: DataTypes.INTEGER,
-  in_progress: DataTypes.BOOLEAN,
+  home_team: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: { model: 'clubs', key: 'id' },
+  },
+  home_team_goals: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  away_team: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: { model: 'clubs', key: 'id' },
+  },
+  away_team_goals: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  in_progress: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 }, {
   sequelize: db,
   timestamps: false,
