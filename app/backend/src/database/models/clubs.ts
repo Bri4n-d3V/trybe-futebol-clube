@@ -14,9 +14,10 @@ Club.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  club_name: {
+  clubName: {
     type: DataTypes.STRING,
     allowNull: false,
+    field: 'club_name',
   },
 }, {
   sequelize: db,

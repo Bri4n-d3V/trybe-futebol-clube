@@ -1,5 +1,6 @@
 import * as express from 'express';
-import loginRoute from './routes/loginRoute';
+import login from './routes/loginRoutes';
+import clubs from './routes/clubsRoutes';
 
 class App {
   public app: express.Express;
@@ -31,7 +32,8 @@ class App {
   public start(PORT: string | number):void {
     this.app.use(express.json());
     this.app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
-    this.app.use('/login', loginRoute);
+    this.app.use('/login', login);
+    this.app.use('/clubs', clubs);
   }
 }
 
