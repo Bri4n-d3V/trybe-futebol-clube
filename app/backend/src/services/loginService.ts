@@ -17,7 +17,7 @@ export async function createLogin(email: string, password: string): Promise<any>
 
   const { id, username, role } = user;
 
-  const token = sign(role, 'SENHA', { algorithm: 'HS256' });
+  const token = sign(role, 'super_senha', { algorithm: 'HS256' });
 
   const checkToken = await verifyToken(token);
   if (checkToken) return checkToken as Error;
