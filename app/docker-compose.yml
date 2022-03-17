@@ -3,6 +3,8 @@ services:
   frontend:
     restart: 'always'
     build: ./frontend
+    ports:
+      - 3000:3000
     # ...
     depends_on:
       backend:
@@ -16,6 +18,8 @@ services:
   backend:
     restart: 'always'
     build: ./backend
+    ports:
+      - 3001:3001
     # ...
     depends_on:
       db:

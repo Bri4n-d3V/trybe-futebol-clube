@@ -2,16 +2,26 @@ import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
 export default class Club extends Model {
-  static assoaciate(models: any) {
-    Club.hasMany(models.Match, { foreignKey: 'id', as: 'matchs' });
-  }
+  public id: number;
+
+  public clubName: string;
 }
 
 Club.init({
-  club_name: DataTypes.STRING,
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  club_name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   sequelize: db,
   timestamps: false,
   modelName: 'clubs',
   tableName: 'clubs',
+  underscored: true,
 });
