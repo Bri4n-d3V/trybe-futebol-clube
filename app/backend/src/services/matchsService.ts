@@ -23,25 +23,34 @@ export async function getAllMatchs(inProgress: string | undefined): Promise<any>
 }
 
 export async function saveMatch(body: any, authorization: string): Promise <any | Error> {
-  const match = await matchsModel.create(body, { raw: true });
-
-  const { id, homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = match;
-
   const checkToken = await tokenSchema.verifyAuthorization(authorization);
-
   if (!checkToken) return { status: 401, message: { error: 'Invalid token' } } as Error;
 
+  const homeTeamFilter = await clubsModel.findByPk(body.homeTeam, { raw: true });
+
+  const awayTeamFilter = await clubsModel.findByPk(body.awayTeam, { raw: true });
+
+  if (homeTeamFilter === null || awayTeamFilter === null) {
+    return { status: 401,
+      message: { message: 'There is no team with such id!' } };
+  }
+
+  const match = await matchsModel.create(body, { raw: true });
+  const { id, homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = match;
+
+  if (homeTeam === awayTeam) {
+    return { status: 401,
+      message: { message: 'It is not possible to create a match with two equal teams' } };
+  }
+
   return { status: 201,
-    message: {
-      id, homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress,
-    } };
+    message: { id, homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress } };
 }
 
 export async function saveFinishedMatchById(id: number): Promise <any> {
   await matchsModel.update({ inProgress: false }, { where: { id } });
 
   const matchById = await matchsModel.findByPk(id);
-  console.log('matchById ==>', matchById);
 
   return { status: 200, message: matchById };
 }
