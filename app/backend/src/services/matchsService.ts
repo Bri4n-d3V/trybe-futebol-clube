@@ -54,3 +54,13 @@ export async function saveFinishedMatchById(id: number): Promise <any> {
 
   return { status: 200, message: matchById };
 }
+
+export async function attMatchById(id: number, homeTeamGoals: number, awayTeamGoals: number)
+  : Promise <any> {
+  const updateMatch = await matchsModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+  console.log('match ==>', updateMatch);
+
+  const matchById = await matchsModel.findByPk(id);
+
+  return { status: 200, message: matchById };
+}

@@ -41,3 +41,18 @@ export async function saveFinishedMatchById(req: Request, res: Response): Promis
 
   return res.status(result.status).json(result.message) as Response;
 }
+
+export async function attMatchById(req: Request, res: Response): Promise<Response
+| Error> {
+  const { id } = req.params;
+  const { homeTeamGoals, awayTeamGoals } = req.body;
+
+  const result = await matchsService.attMatchById(+id, homeTeamGoals, awayTeamGoals);
+
+  if ((result as Error).status) {
+    return res.status((result as Error).status)
+      .json((result as Error).message);
+  }
+
+  return res.status(result.status).json(result.message) as Response;
+}
