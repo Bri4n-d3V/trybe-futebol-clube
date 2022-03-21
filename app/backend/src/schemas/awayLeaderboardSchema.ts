@@ -33,37 +33,3 @@ export async function awayTeamsResults(): Promise <object[]> {
   });
   return teamsMap;
 }
-
-// 1º Total de Vitórias; 2º Saldo de gols; 3º Gols a favor; 4º Gols contra.
-export function sortAwayTeams(table: any):Promise<any> {
-  return table.sort((a:any, b:any): any => {
-    if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
-    if (b.totalVictories !== a.totalVictories) return b.totalVictories - a.totalVictories;
-    if (b.goalsBalance !== a.goalsBalance) return b.goalsBalance - a.goalsBalance;
-    if (b.goalsFavor !== a.goalsFavor) return b.goalsFavor - a.goalsFavor;
-    if (b.goalsOwn !== a.goalsOwn) return b.goalsOwn - a.goalsOwn;
-    return 0;
-  });
-}
-
-export async function ultimateAwayTeamResults(): Promise<any> {
-  const results: any = await awayTeamsResults();
-
-  const matchsItem = results.map((club: any):any => {
-    const obj = {
-      name: club.name,
-      totalPoints: club.matchs.reduce((acc: number, item: any): number => (acc + item.points), 0),
-      totalGames: club.matchs.length,
-      totalVictories: club.matchs.filter((item: any):boolean => item.points === 3).length,
-      totalDraws: club.matchs.filter((item: any):boolean => item.points === 1).length,
-      totalLosses: club.matchs.filter((item: any):boolean => item.points === 0).length,
-      goalsFavor: club.matchs.reduce((ac: number, item: any): number => (ac + item.goalsFavor), 0),
-      goalsOwn: club.matchs.reduce((ac: number, item: any): number => (ac + item.goalsOwn), 0),
-      goalsBalance: 0,
-      efficiency: 0 };
-    obj.goalsBalance = obj.goalsFavor - obj.goalsOwn;
-    obj.efficiency = Math.round((obj.totalPoints / (obj.totalGames * 3)) * 10000) / 100;
-    return obj;
-  });
-  return sortAwayTeams(matchsItem);
-}

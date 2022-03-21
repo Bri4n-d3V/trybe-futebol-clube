@@ -25,3 +25,15 @@ export async function getAwayLeaderboard(req: Request, res: Response)
 
   return res.status(result.status).json(result.message) as Response;
 }
+
+export async function getAllLeaderboard(req: Request, res: Response)
+  :Promise <Response | Error > {
+  const result = await leaderboardService.getAllLeaderboard();
+
+  if ((result as Error).status) {
+    return res.status((result as Error).status)
+      .json((result as Error).message);
+  }
+
+  return res.status(result.status).json(result.message) as Response;
+}
