@@ -1,9 +1,14 @@
-// import clubsModel from '../database/models/clubs';
-// import matchsModel from '../database/models/matchs';
-import * as leaderboardSchema from '../schemas/leaderboardSchema';
+import * as homeLeaderboardSchema from '../schemas/homeLeaderboardSchema';
+import * as awayLeaderboardSchema from '../schemas/awayLeaderboardSchema';
 
-export default async function getLeaderboard(): Promise<any | Error> {
-  const result = await leaderboardSchema.ultimateHomeTeamResults();
+export async function getHomeLeaderboard(): Promise<any | Error> {
+  const result = await homeLeaderboardSchema.ultimateHomeTeamResults();
+
+  return { status: 200, message: result };
+}
+
+export async function getAwayLeaderboard(): Promise<any | Error> {
+  const result = await awayLeaderboardSchema.ultimateAwayTeamResults();
 
   return { status: 200, message: result };
 }
