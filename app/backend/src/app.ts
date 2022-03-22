@@ -6,12 +6,15 @@ import leaderboard from './routes/leaderboardRoutes';
 
 class App {
   public app: express.Express;
-  // ...
 
   constructor() {
     this.app = express();
     this.config();
-    // ...
+    this.app.use(express.json());
+    this.app.use('/login', login);
+    this.app.use('/clubs', clubs);
+    this.app.use('/matchs', matchs);
+    this.app.use('/leaderboard', leaderboard);
   }
 
   private config():void {
@@ -23,21 +26,14 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
   }
 
   public use(rota:string, callback:express.RequestHandler):void {
     this.app.use(rota, callback);
   }
 
-  // ...
   public start(PORT: string | number):void {
-    this.app.use(express.json());
     this.app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
-    this.app.use('/login', login);
-    this.app.use('/clubs', clubs);
-    this.app.use('/matchs', matchs);
-    this.app.use('/leaderboard', leaderboard);
   }
 }
 
