@@ -5,7 +5,6 @@ export async function clubMatchs(): Promise<object[]> {
 
   const matchsPerClub = await Promise.all(clubs.map(async (club: any):Promise<any> => {
     const temp = await club.getMatchHome();
-
     const matchs = temp.filter((match: any): boolean => !match.inProgress);
 
     return { ...club.toJSON(), matchs };
